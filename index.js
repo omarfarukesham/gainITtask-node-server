@@ -22,6 +22,22 @@ async function run() {
         const productCollection = client.db('kidsStore').collection('productDashboard')
         const piechartCollection = client.db('kidsStore').collection('data1')
         const barchartCollection = client.db('kidsStore').collection('Data2')
+        const product2Collection = client.db('kidsStore').collection('product2')
+
+        // product2 data usages api here.......................................
+        app.get('/product2', async (req, res) => {
+            const query = {}
+            const cursor = product2Collection.find(query)
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+           //remove from database and client side of wishlist.....................
+           app.delete('/removeOrder/:id', async(req, res)=>{
+            var id = req.params.id;
+            const query = {_id: ObjectId(id) };
+            const result = await product2Collection.deleteOne(query);
+            res.send(result)
+        })
 
         // sales growth data usages api here.......................................
         app.get('/analysis', async (req, res) => {
